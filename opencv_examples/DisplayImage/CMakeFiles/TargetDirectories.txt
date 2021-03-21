@@ -1,0 +1,3 @@
+/home/pi/opencv_examples/DisplayImage/CMakeFiles/rebuild_cache.dir
+/home/pi/opencv_examples/DisplayImage/CMakeFiles/DisplayImage.dir
+/home/pi/opencv_examples/DisplayImage/CMakeFiles/edit_cache.dir
