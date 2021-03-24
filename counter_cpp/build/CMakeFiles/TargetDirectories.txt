@@ -1,0 +1,3 @@
+/home/pi/people-counter-opencv/build/CMakeFiles/rebuild_cache.dir
+/home/pi/people-counter-opencv/build/CMakeFiles/people_counter.dir
+/home/pi/people-counter-opencv/build/CMakeFiles/edit_cache.dir
