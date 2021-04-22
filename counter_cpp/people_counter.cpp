@@ -8,9 +8,20 @@
 #include <opencv2/imgcodecs.hpp>
 #include <opencv2/video.hpp>
 #include <iostream>
+#include <fstream>
+#include <chrono>
 
 using namespace cv;
 using namespace std;
+
+// global variables
+    int count = 0;
+    bool timer_on = false;
+    double total_time_in_s = 0; 
+    float Navg = 0;
+    std::chrono::steady_clock::time_point start;
+    std::chrono::steady_clock::time_point end;
+	
 
 /*detects people in the area with rectangles and returns the number of people
 detected to the main function*/
@@ -60,6 +71,13 @@ int main(int argc, char **argv) {
     VideoCapture capture;
     	//opening the camera
     capture.open(0);
+    
+	// files to write data 
+    ofstream N_file("Npeople.txt");
+    ofstream T_file("Toccupied.txt");
+    //int count = 0;
+    //bool timer_on = false;
+    //double total_time_in_s = 0;	
          //checks whether camera is opened or not
     if(capture.isOpened())	
     {
@@ -70,15 +88,57 @@ int main(int argc, char **argv) {
         //checks for the last frame to exit
             if(cam_image.empty())	
                 break;
+
 	    //returns the number of people detected from detect and draw function
             int num_people = detectAndDraw(hog, cam_image);		
             cout << "People count: " << num_people << endl;
+	    //Nfile.open();
+	    N_file << num_people << endl;
+	    //Nfile.close();
+	    Navg += num_people;
+	    ++count;
+	    
+	    if(count = 10)
+	    {
+	    	Navg /= 10;
+	    	count = 0;
+	    		
+	    }		
+	    if (Navg >= 1)  // N was >=1 successively for 10 reads
+	    {
+	    	if( !timer_on)
+	    	{
+	    		// start timer
+	    		start = std::chrono::steady_clock::now();
+	    		timer_on = true;
+			cout << "\n...........Turning on Timer!.........";
+	    	}
+	    }
+	    else if (Navg == 0) // N was '0' successively for 10 reads
+	    {
+	    	if(timer_on)
+	    	{
+			cout << "\n......Turning off Timer!....";
+	    		end = std::chrono::steady_clock::now();
+	    		std::chrono::duration<double> elapsed_seconds = end-start;
+	    		
+	    		std::cout << "elapsed time: " << elapsed_seconds.count() << "s\n";
+	    		total_time_in_s += elapsed_seconds.count();
+	    		//Tfile.open();
+			T_file << total_time_in_s << endl;
+			//Tfile.close();
+	    		timer_on = false;		
+	    	}
+	    }
+
         //displays every frame to the user
             imshow("HOG Descriptor based People counter", cam_image);
             cout<<"press q to quit"<<endl;
             if((waitKey(30) & 0xff)== 'q')
             {
                cout<<"quit sucessfully"<<endl;
+	       N_file.close();
+	       T_file.close();
                return 0;
             }
         }

@@ -4,7 +4,7 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
-  "/home/pi/people-counter-opencv/people_counter.cpp" "/home/pi/people-counter-opencv/build/CMakeFiles/people_counter.dir/people_counter.cpp.o"
+  "/home/pi/Learning_openCV/people-counter-opencv/counter_cpp/people_counter.cpp" "/home/pi/Learning_openCV/people-counter-opencv/counter_cpp/build/CMakeFiles/people_counter.dir/people_counter.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
 
